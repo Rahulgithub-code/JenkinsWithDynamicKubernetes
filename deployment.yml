@@ -1,0 +1,56 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: webhtml
+  labels:
+    app: webhtml
+spec:
+  ports:
+  - port: 80
+    nodePort:8000
+selector:
+  app: webhtml
+  tier: production
+type: NodePort
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadat:
+  name: webhtml-pvc
+  labels:
+    app: webhtml
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 3Gi
+---
+apiVersion: app/v1
+kind: Deployment
+metadata:
+  name: webhtml-dep
+  labels:
+    app: webhtml
+    tier: production
+strategy:
+  type: Recreate
+templete:
+  metadata:
+    labels:
+      app: webhtml
+      tier: production
+spec: 
+  containers:
+  - image: httpd
+    name: webhtml
+    ports:
+    - containerPort: 80
+      name: webhtml
+    volumeMounts:
+    - name: webhtml-storage
+      mountPath: /
+    Volumes:
+    - name: webhtml-storage
+      persistentVolumeClaim:
+        claimName: webhtml-pvc
