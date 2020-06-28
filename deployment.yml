@@ -29,7 +29,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: webhtml-dep
+  name: webhtml
   labels:
     app: webhtml
 spec:
@@ -39,7 +39,7 @@ spec:
     tier: production
   strategy:
     type: Recreate
-  templete:
+  template:
     metadata:
       labels:
         app: webhtml
@@ -54,7 +54,7 @@ spec:
          volumeMounts:
          - name: webhtml-storage
            mountPath: /usr/local/apache2/htdocs/
-       Volumes:
+       volumes:
        - name: webhtml-storage
          persistentVolumeClaim:
            claimName: webhtml-pvc
