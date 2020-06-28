@@ -7,15 +7,15 @@ metadata:
 spec:
   ports:
   - port: 80
-    nodePort:8000
-selector:
-  app: webhtml
-  tier: production
-type: NodePort
+    nodePort: 30003
+  selector:
+    app: webhtml
+    tier: production
+  type: NodePort
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
-metadat:
+metadata:
   name: webhtml-pvc
   labels:
     app: webhtml
@@ -26,31 +26,35 @@ spec:
     requests:
       storage: 3Gi
 ---
-apiVersion: app/v1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: webhtml-dep
   labels:
     app: webhtml
+spec:
+  selector:
+   matchLabels:
+    app: webhtml
     tier: production
-strategy:
-  type: Recreate
-templete:
-  metadata:
-    labels:
-      app: webhtml
-      tier: production
-spec: 
-  containers:
-  - image: httpd
-    name: webhtml
-    ports:
-    - containerPort: 80
-      name: webhtml
-    volumeMounts:
-    - name: webhtml-storage
-      mountPath: /usr/local/apache2/htdocs/
-    Volumes:
-    - name: webhtml-storage
-      persistentVolumeClaim:
-        claimName: webhtml-pvc
+  strategy:
+    type: Recreate
+  templete:
+    metadata:
+      labels:
+        app: webhtml
+        tier: production
+    spec: 
+       containers:
+       - image: httpd
+         name: webhtml
+         ports:
+         - containerPort: 80
+           name: webhtml
+         volumeMounts:
+         - name: webhtml-storage
+           mountPath: /usr/local/apache2/htdocs/
+       Volumes:
+       - name: webhtml-storage
+         persistentVolumeClaim:
+           claimName: webhtml-pvc
