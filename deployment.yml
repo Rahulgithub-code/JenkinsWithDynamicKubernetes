@@ -9,8 +9,8 @@ spec:
     capacity: 
         storage: 1Gi
     accessModes: 
-        - ReadWriteOnce:
-    hostpath:
+        - ReadWriteOnce
+    hostPath:
         path: "/root/task3/"
 ---
 apiVersion: v1
