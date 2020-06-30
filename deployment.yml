@@ -22,7 +22,6 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
-  storageClassName: manual
   resources:
     requests:
       storage: 3Gi
@@ -47,14 +46,14 @@ spec:
         tier: production
     spec: 
        containers:
-       - image: httpd
+       - image: vimal13/apache-webserver-php
          name: webhtml
          ports:
          - containerPort: 80
            name: webhtml
          volumeMounts:
          - name: webhtml-storage
-           mountPath: /var/www/html/
+           mountPath: /var/www/html
        volumes:
        - name: webhtml-storage
          persistentVolumeClaim:
