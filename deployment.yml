@@ -3,7 +3,7 @@ kind: PersistentVolume
 metadata:
     name: html-pv
     labels: 
-        app: htmlwebpage
+        app: webhtml
 spec: 
     storageClassName: manual
     capacity: 
